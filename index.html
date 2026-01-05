@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <title>Spoti2MP3 - Simple. Efficient. Free.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000;
+            color: #f5f5f7;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #000 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(30, 215, 96, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+            animation: pulse 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #1db954 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: #a1a1a6;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 48px;
+            background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(29, 185, 84, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(29, 185, 84, 0.5);
+        }
+
+        .features {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+            position: relative;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #1db954, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(29, 185, 84, 0.3);
+            box-shadow: 0 20px 60px rgba(29, 185, 84, 0.15);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .feature-description {
+            color: #a1a1a6;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff 0%, #1db954 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .requirements {
+            padding: 8rem 2rem;
+            background: #000;
+            text-align: center;
+        }
+
+        .req-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .req-list {
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .req-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(29, 185, 84, 0.05);
+            border-radius: 12px;
+            border-left: 3px solid #1db954;
+        }
+
+        .req-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .req-text {
+            flex: 1;
+        }
+
+        .req-title {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .req-description {
+            color: #a1a1a6;
+            font-size: 0.95rem;
+        }
+
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .warning-title {
+            color: #ffc107;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .warning-text {
+            color: #d1d1d6;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer p {
+            color: #6e6e73;
+            font-size: 0.9rem;
+        }
+
+        .glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+            
+            .features, .requirements {
+                padding: 4rem 1.5rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+        }
+
+        .download-section {
+            padding: 6rem 2rem;
+            background: radial-gradient(ellipse at center, #0d1b0d 0%, #000 70%);
+            text-align: center;
+        }
+
+        .download-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(29, 185, 84, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(29, 185, 84, 0.15);
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(29, 185, 84, 0.15);
+            color: #1db954;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="glow">Spotify Downloader</h1>
+            <p class="tagline">Download your favorite tracks with ease. Simple. Efficient. Free.</p>
+            <a href="#download" class="cta-button">Download Now</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Powerful Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🎵</span>
+                <h3 class="feature-title">Easy Track Management</h3>
+                <p class="feature-description">Simply paste Spotify URLs and build your download queue. Add tracks individually or import entire lists from text files.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📦</span>
+                <h3 class="feature-title">Batch Downloads</h3>
+                <p class="feature-description">Download multiple tracks sequentially with a single click. Real-time progress tracking keeps you informed.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🎨</span>
+                <h3 class="feature-title">Clean Output</h3>
+                <p class="feature-description">All metadata automatically removed. Files saved in clean 'Artist - Title.mp3' format for perfect organization.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📂</span>
+                <h3 class="feature-title">Custom Locations</h3>
+                <p class="feature-description">Choose exactly where your downloads are saved. Full control over your file organization.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📋</span>
+                <h3 class="feature-title">Import & Export</h3>
+                <p class="feature-description">Import track lists from text files. Export your queues for backup or sharing. Seamless workflow management.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🖥️</span>
+                <h3 class="feature-title">Native Windows UI</h3>
+                <p class="feature-description">Clean, professional interface using the default Windows theme. Familiar and easy to use.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">⌨️</span>
+                <h3 class="feature-title">Quick Actions</h3>
+                <p class="feature-description">Remove tracks with the Delete key. Reset completed downloads instantly. Efficient keyboard shortcuts.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3 class="feature-title">Progress Tracking</h3>
+                <p class="feature-description">Visual progress bars show overall download status. Track-by-track status updates keep you informed.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🔒</span>
+                <h3 class="feature-title">Privacy First</h3>
+                <p class="feature-description">No data collection. All processing happens locally on your computer. Your privacy is guaranteed.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="download-section" id="download">
+        <div class="download-card">
+            <span class="version-badge">Version 1.0</span>
+            <h2 class="section-title" style="margin-bottom: 1.5rem; font-size: 2.5rem;">Get Started</h2>
+            <p class="tagline" style="margin-bottom: 2rem;">Download the latest version and start enjoying your music</p>
+            <a href="PLACEHOLDER_DOWNLOAD_LINK" class="cta-button">Download for Windows</a>
+        </div>
+    </section>
+
+    <section class="requirements">
+        <h2 class="section-title">System Requirements</h2>
+        <div class="req-container">
+            <div class="req-list">
+                <div class="req-item">
+                    <span class="req-icon">💻</span>
+                    <div class="req-text">
+                        <div class="req-title">Operating System</div>
+                        <div class="req-description">Windows 7 or later (Windows 10/11 recommended)</div>
+                    </div>
+                </div>
+
+                <div class="req-item">
+                    <span class="req-icon">⚙️</span>
+                    <div class="req-text">
+                        <div class="req-title">.NET Framework</div>
+                        <div class="req-description">Version 4.7.2 or higher required. The app will prompt for installation if not present.</div>
+                    </div>
+                </div>
+
+                <div class="req-item">
+                    <span class="req-icon">🌐</span>
+                    <div class="req-text">
+                        <div class="req-title">Internet Connection</div>
+                        <div class="req-description">Active internet connection required for API access and downloads</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning">
+                <div class="warning-title">⚠️ Important Notes</div>
+                <div class="warning-text">
+                    <p style="margin-bottom: 0.8rem;"><strong>.NET Framework Installation:</strong> If .NET Framework 4.7.2 is not installed on your system, Windows will automatically prompt you to download and install it before the application can run.</p>
+                    <p style="margin-bottom: 0.8rem;"><strong>API Limitations:</strong> This application relies on a third-party API service. Downloads may occasionally fail or be unavailable due to API rate limits, service maintenance, or regional restrictions.</p>
+                    <p><strong>Legal Notice:</strong> This tool is for educational purposes only. Ensure you have the right to download content and respect copyright laws in your jurisdiction.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Spotify Downloader. Made with ❤️ for music lovers.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Not affiliated with Spotify AB or any of its partners.</p>
+    </footer>
+</body>
+</html>
